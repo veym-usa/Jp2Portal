@@ -1,23 +1,37 @@
-﻿@using System.Security.Claims
-@{
-    ViewData["Title"] = "Home Page";
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <br />
+    <p>Choose <b>Sign in</b> at the top of the page and sign in with VEYM account!</p>
 }
+@if (User.Identity.IsAuthenticated)
+{
+    string name = User.FindFirst("name").Value;
+    <div class="text-center">
+        <h1 class="display-4">
+            Welcome, Tr.
+            
+            <hi class="display-4"> @name</hi>
+        </h1>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">
-        Welcome, Tr.
-        @if (User.Identity.IsAuthenticated)
-        {
-            var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific
-            string name = identity.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
-            <hi class="display-4"> @name</hi> 
-
-        }
-        else
-        {
-            <ul class="nav navbar-nav navbar-right">
-                <li><a asp-area="AzureAD" asp-controller="Account" asp-action="SignIn">Sign in</a></li>
-            </ul>
-        }
-    </h1>
-</div>
+    <div class="alert alert-info @(TempData["Message"] == null ? "hidden" : null)" role="alert">
+        @Html.Raw(TempData["Message"])
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@ViewData["Picture"]" style="border-radius: 50%; height: 200px; width: 200px; margin: 20px;" />
+        </div>
+        <div class="col-md-9">
+            <pre><b>Unique Member ID:  </b> @ViewData["memberID"]</pre>
+            <pre><b>Rank:              </b> @ViewData["rank"]</pre>
+            <pre><b>Liên Đoàn:         </b> @ViewData["leauge"]</pre>
+            <pre><b>Đoàn:              </b> @ViewData["chapter"]</pre>
+            <pre><b>Leauge-Chapter ID: </b> @ViewData["leaugeChapterID"]</pre>
+        </div>
+    </div>
+}

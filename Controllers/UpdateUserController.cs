@@ -11,13 +11,13 @@ using System.Linq;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 {
-    public class HomeController : Controller
+    public class UpdateUserController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
         private readonly IGraphSdkHelper _graphSdkHelper;
 
-        public HomeController(IConfiguration configuration, IHostingEnvironment hostingEnvironment, IGraphSdkHelper graphSdkHelper)
+        public UpdateUserController(IConfiguration configuration, IHostingEnvironment hostingEnvironment, IGraphSdkHelper graphSdkHelper)
         {
             _configuration = configuration;
             _env = hostingEnvironment;
@@ -25,7 +25,6 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         }
 
         [AllowAnonymous]
-        // Load user's profile.
         public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -49,39 +48,6 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 ViewData["leaugeChapterID"] = leaugeChapterID;
 
                 ViewData["Picture"] = await GraphService.GetPictureBase64(graphClient, email, HttpContext);
-            }
-
-            return View();
-        }
-
-        [AllowAnonymous]
-        public IActionResult CampInfo()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> UpdateUserInfo()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Initialize the GraphServiceClient.
-                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
-                // Grab Beta Data
-                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
-                var identity = User.Identity as ClaimsIdentity;
-                string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
-
-                string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
-                UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
-                string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
-
-                // Pass the Goods to the View
-                ViewData["XfirstName"] = currentUser.givenName;
-                ViewData["XlastName"] = currentUser.surname;
-                ViewData["Xrank"] = currentUser.rank;
-                ViewData["Xleauge"] = currentUser.league;
-                ViewData["Xchapter"] = currentUser.officeLocation;
             }
 
             return View();

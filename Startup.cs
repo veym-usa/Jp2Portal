@@ -1,18 +1,25 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+/* 
+*  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. 
+*  See LICENSE in the source repository root for complete license information. 
+*/
+
+using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using MicrosoftGraphAspNetCoreConnectSample.Extensions;
+using MicrosoftGraphAspNetCoreConnectSample.Helpers;
 
-namespace WebApp_OpenIDConnect_DotNet
+
+
+namespace MicrosoftGraphAspNetCoreConnectSample
 {
     public class Startup
     {
@@ -22,6 +29,8 @@ namespace WebApp_OpenIDConnect_DotNet
         }
 
         public IConfiguration Configuration { get; }
+        public const string ObjectIdentifierType = "http://schemas.microsoft.com/identity/claims/objectidentifier";
+        public const string TenantIdType = "http://schemas.microsoft.com/identity/claims/tenantid";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,45 +42,37 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
-                .AddAzureAD(options => Configuration.Bind("AzureAd", options));
-
-            services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
+            services.AddAuthentication(sharedOptions =>
             {
-                options.Authority = options.Authority + "/v2.0/";
-
-                // Per the code below, this application signs in users in any Work and School
-                // accounts and any Microsoft Personal Accounts.
-                // If you want to direct Azure AD to restrict the users that can sign-in, change 
-                // the tenant value of the appsettings.json file in the following way:
-                // - only Work and School accounts => 'organizations'
-                // - only Microsoft Personal accounts => 'consumers'
-                // - Work and School and Personal accounts => 'common'
-
-                // If you want to restrict the users that can sign-in to only one tenant
-                // set the tenant value in the appsettings.json file to the tenant ID of this
-                // organization, and set ValidateIssuer below to true.
-
-                // If you want to restrict the users that can sign-in to several organizations
-                // Set the tenant value in the appsettings.json file to 'organizations', set
-                // ValidateIssuer, above to 'true', and add the issuers you want to accept to the
-                // options.TokenValidationParameters.ValidIssuers collection
-                options.TokenValidationParameters.ValidateIssuer = false;
-            });
-
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
+                sharedOptions.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddCookie();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSession();
+
+            // Add application services.
+            //services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IGraphAuthProvider, GraphAuthProvider>();
+            services.AddTransient<IGraphSdkHelper, GraphSdkHelper>();
+
+            services.Configure<HstsOptions>(options =>
+            {
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,13 +80,12 @@ namespace WebApp_OpenIDConnect_DotNet
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

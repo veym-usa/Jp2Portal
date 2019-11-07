@@ -1,7 +1,5 @@
 ﻿@if (!User.Identity.IsAuthenticated)
 {
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <br />
     <p>Choose <b>Sign in</b> at the top of the page and sign in with VEYM account!</p>
 }
@@ -10,9 +8,8 @@
     string name = User.FindFirst("name").Value;
     <div class="text-center">
         <h1 class="display-4">
-            Welcome, Tr.
-            
-            <hi class="display-4"> @name</hi>
+            Welcome, Tr.   
+         <hi class="display-4"> @name</hi>
         </h1>
     </div>
 

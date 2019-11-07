@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Linq;
+using Jp2Portal.Models;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 {
@@ -16,6 +17,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
         private readonly IGraphSdkHelper _graphSdkHelper;
+        private VEYMUser theUser;
 
         public HomeController(IConfiguration configuration, IHostingEnvironment hostingEnvironment, IGraphSdkHelper graphSdkHelper)
         {
@@ -75,6 +77,13 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
                 UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
                 string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
+                theUser = new VEYMUser();
+
+                theUser.FirstName = currentUser.givenName;
+                theUser.LastName = currentUser.surname;
+                theUser.Rank = currentUser.rank;
+                theUser.Leauge = currentUser.league;
+                theUser.Chapter = currentUser.officeLocation;
 
                 // Pass the Goods to the View
                 ViewData["XfirstName"] = currentUser.givenName;
@@ -82,6 +91,31 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 ViewData["Xrank"] = currentUser.rank;
                 ViewData["Xleauge"] = currentUser.league;
                 ViewData["Xchapter"] = currentUser.officeLocation;
+            }
+
+            return View();
+        }
+
+        //Do Update here becasuse _graphSdkHelper already initalized
+        public async Task<IActionResult> Update()
+        {
+            theUser = new VEYMUser();
+            if (User.Identity.IsAuthenticated)
+            {
+                // Initialize the GraphServiceClient.
+                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+                // Grab Beta Data
+                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+
+                
+                var user = new User
+                {
+                    
+                };
+
+                //Do the Update
+                //await graphClient.Me.Request().UpdateAsync(user);
+
             }
 
             return View();

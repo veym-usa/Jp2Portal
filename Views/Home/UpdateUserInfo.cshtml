@@ -1,11 +1,30 @@
-﻿<h2>Update Your Info</h2>
-<div class="row">
-    <div class="col">
-        <pre><b>First Name:        </b> @Html.TextBox("FirstName", @ViewData["XfirstName"], new { @class = "form-control" })</pre>
-        <pre><b>Last Name:         </b> @Html.TextBox("LastName", @ViewData["XlastName"], new { @class = "form-control" })</pre>
-        <pre><b>Rank:              </b> @Html.TextBox("Rank", @ViewData["Xrank"], new { @class = "form-control" })</pre>
-        <pre><b>Liên Đoàn:         </b> @Html.TextBox("Leauge", @ViewData["Xleauge"], new { @class = "form-control" })</pre>
-        <pre><b>Đoàn:              </b> @Html.TextBox("Chapter", @ViewData["Xchapter"], new { @class = "form-control" })</pre>
-    </div>
+﻿@model Jp2Portal.Models.VEYMUser
+
+<div class="text-center">
+    <h1 class="display-4">
+        Update Your Info
+    </h1>
 </div>
 
+
+<div class="form-group">
+    <pre><b>First Name:  </b>@Html.TextBox("FirstName", @ViewData["XfirstName"], new { @class = "input-group-text" })</pre>
+</div>
+
+<div class="form-group">
+    <pre><b>Last Name:   </b>@Html.TextBox("LastName", @ViewData["XlastName"], new { @class = "input-group-text" })</pre>
+</div>
+
+<div class="form-group">
+    <pre><b>Rank:        </b>@Html.TextBox("Rank", @ViewData["Xrank"], new { @class = "input-group-text" })</pre>
+</div>
+
+<div class="form-group">
+    <pre><b>Liên Đoàn:   </b>@Html.TextBox("Leauge", @ViewData["Xleauge"], new { @class = "input-group-text" })</pre>
+</div>
+
+<div class="form-group">
+    <pre><b>Đoàn:        </b>@Html.TextBox("Chapter", @ViewData["Xchapter"], new { @class = "input-group-text" })</pre>
+</div>
+
+<button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("Update","Home")'">Update</button>

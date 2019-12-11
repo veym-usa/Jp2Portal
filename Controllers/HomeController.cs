@@ -63,6 +63,13 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         }
 
         [AllowAnonymous]
+        public IActionResult RegisterForEvent()
+        {
+            return View();
+        }
+
+
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateUserInfo()
         {
             if (User.Identity.IsAuthenticated)
@@ -118,6 +125,12 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 
             }
 
+            return View();
+        }
+
+        //Do Update here becasuse _graphSdkHelper already initalized
+        public async Task<IActionResult> Test()
+        {
             return View();
         }
     }

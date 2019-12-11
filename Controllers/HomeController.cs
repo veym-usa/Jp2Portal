@@ -104,9 +104,15 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         }
 
         //Do Update here becasuse _graphSdkHelper already initalized
-        public async Task<IActionResult> Update()
+        public async Task<IActionResult> ManageUpdate()
         {
-            theUser = new VEYMUser();
+            VEYMUser veymUser = new VEYMUser();
+            veymUser.FirstName = Request.Query["FirstName"];
+            veymUser.LastName = Request.Query["LastName"];
+            veymUser.Rank = Request.Query["Rank"];
+            veymUser.Leauge = Request.Query["Leauge"];
+            veymUser.Chapter = Request.Query["Chapter"];
+
             if (User.Identity.IsAuthenticated)
             {
                 // Initialize the GraphServiceClient.
@@ -114,10 +120,9 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 // Grab Beta Data
                 graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
 
-                
                 var user = new User
                 {
-                    
+
                 };
 
                 //Do the Update
@@ -125,7 +130,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 
             }
 
-            return View();
+            return View("Update");
         }
 
         //Do Update here becasuse _graphSdkHelper already initalized

@@ -6,24 +6,71 @@
     </h1>
 </div>
 
-<div class="form-group">
-    <pre><b>First Name:  </b>@Html.TextBox("FirstName", @ViewData["XfirstName"], new { @class = "input-group-text" })</pre>
-</div>
+<form class="form-horizontal" action="ManageUpdate" meathod="post">
+    <div class="form-group form-inline">
+        <pre>
+        <label class="col-sm-3 col-form-label" for="FirstName" style="font-size:18px;">
+        <b>First Name:</b>
+            </label>
+        <input type="text" class="form-control" id="FirstName" name="FirstName" />
+        </pre>
+    </div>
 
-<div class="form-group">
-    <pre><b>Last Name:   </b>@Html.TextBox("LastName", @ViewData["XlastName"], new { @class = "input-group-text" })</pre>
-</div>
+    <div class="form-group form-inline">
+        <pre>
+        <label class="col-sm-3 col-form-label" for="LastName" style="font-size:18px;">
+        <b>Last Name:</b>
+            </label>
+        <input type="text" class="form-control" id="LastName" name="LastName" />
+        </pre>
+    </div>
 
-<div class="form-group">
-    <pre><b>Rank:        </b>@Html.TextBox("Rank", @ViewData["Xrank"], new { @class = "input-group-text" })</pre>
-</div>
+    <div class="form-group form-inline">
+        <pre>
+        <label class="col-sm-3 col-form-label" for="Rank" style="font-size:18px;">
+        <b>Rank:</b>
+            </label>
+        <select class="form-control" id="Rank" name="Rank">
+        <option>Hiệp Sĩ Trưởng Thành</option>
+        <option>Huynh Trưởng - Cấp 1</option>
+        <option>Huynh Trưởng - Cấp 2</option>
+        <option>Huynh Trưởng - Cấp 3</option>
+        <option>Huấn Luyện Viên - Trung Cấp</option>
+        <option>Huấn Luyện Viên - Sơ Cấp</option>
+        <option>Trợ Tá</option>
+        <option>Trợ Úy</option>
+        <option>Cha Tuyên Úy</option>
+            </select>
+        </pre>
+    </div>
 
-<div class="form-group">
-    <pre><b>Liên Đoàn:   </b>@Html.TextBox("Leauge", @ViewData["Xleauge"], new { @class = "input-group-text" })</pre>
-</div>
+    <div class="form-group form-inline">
+        <pre>
+        <label class="col-sm-3 col-form-label" for="Leauge" style="font-size:18px;">
+        <b>Leauge:</b>
+            </label>
+        <select class="form-control" id="Leauge" name="Leauge">
+        <option>John Paul II</option>
+        <option>John Paul II</option>
+        <option>John Paul II</option>
+        </select>
+        </pre>
+    </div>
 
-<div class="form-group">
-    <pre><b>Đoàn:        </b>@Html.TextBox("Chapter", @ViewData["Xchapter"], new { @class = "input-group-text" })</pre>
-</div>
+    <div class="form-group form-inline">
+        <pre>
+        <label class="col-sm-3 col-form-label" for="Chapter" style="font-size:18px;">
+        <b>Chapter:</b>
+            </label>
+        <select class="form-control" id="Chapter" name="Chapter">
+        <option>Đồng Hành - (Franklin, WI)</option>
+        <option>Nguồn Sống - (Glen Ellyn, IL)</option>
+        <option>Sao Biển - (Chicago, IL)</option>
+        </select>
+        </pre>
+    </div>
 
-<button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("Update","Home")'">Update</button>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Update</button>
+</form>

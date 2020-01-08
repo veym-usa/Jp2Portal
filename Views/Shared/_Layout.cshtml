@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <script src="https://kit.fontawesome.com/9981bc50b8.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-tntt">
@@ -23,7 +24,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="UpdateUserInfo">Update User Info</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="CampInfo">Past Sa Mạc Huấn Luyện</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="RegisterForEvent">Register for an Event</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Test">Test Navigation</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -36,8 +37,19 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - Liên Đoàn Gioan Phaolô II </p>
-        </footer>
+            <div class="row">
+                <div class="pull-left">
+                    <b>&copy; 2019 - Liên Đoàn Gioan Phaolô II</b>
+                    <br>
+                    <i>"The future starts today, not tomorrow." - Pope John Paul II</i>
+                </div>
+                <div class="pull-right">
+                    <a class="fb-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.facebook.com/profile.php?id=100013798176848"><i class="fab fa-lg fa-facebook-f"></i></a>
+                    <a class="email-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="mailto: philips.nguyen@veym.net"><i class="far fa-lg fa-envelope"></i></a>
+                    <a class="yt-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.youtube.com/watch?v=JCIIv8hsO3E&feature=youtu.be&fbclid=IwAR1l0vIjPaKg96EtX-maWa-a8PXYZDYwV48uzo3qis65Hr5XzxOxKGuh4tM"><i class="fab fa-lg fa-youtube"></i></a>
+                </div>
+            </div>
+         </footer>
     </div>
     @RenderSection("Scripts", required: false)
 </body>

@@ -11,8 +11,8 @@
         <pre>
         <label class="col-sm-3 col-form-label" for="FirstName" style="font-size:18px;">
         <b>First Name:</b>
-            </label>
-        <input type="text" class="form-control" id="FirstName" name="FirstName" />
+         </label>
+        <input type="text" class="form-control" id="FirstName" name="FirstName" value=@ViewData["XfirstName"] />
 
         </pre>
     </div>
@@ -21,51 +21,93 @@
         <pre>
         <label class="col-sm-3 col-form-label" for="LastName" style="font-size:18px;">
         <b>Last Name:</b>
-            </label>
-        <input type="text" class="form-control" id="LastName" name="LastName" />
+         </label>
+        <input type="text" class="form-control" id="LastName" name="LastName" value=@ViewData["XlastName"] />
 
         </pre>
     </div>
+
+    @{
+        List<String> listOfRanks = new List<string>();
+        listOfRanks.Add("Hiệp Sĩ Trưởng Thành");
+        listOfRanks.Add("Huynh Trưởng - Cấp 1");
+        listOfRanks.Add("Huynh Trưởng - Cấp 2");
+        listOfRanks.Add("Huynh Trưởng - Cấp 3");
+        listOfRanks.Add("Huấn Luyện Viên - Trung Cấp");
+        listOfRanks.Add("Huấn Luyện Viên - Sơ Cấp");
+        listOfRanks.Add("Trợ Tá");
+        listOfRanks.Add("Trợ Úy");
+        listOfRanks.Add("Cha Tuyên Úy");
+    }
 
     <div class="form-group form-inline">
         <pre>
-        <label class="col-sm-3 col-form-label" for="Rank" style="font-size:18px;">
+        <label class="col-sm-3 col-form-label" for="Rank" style="font-size:18px;" onchange="if(this.selectedIndex) doSomething();">
         <b>Rank:</b>
-            </label>
+        </label>
         <select class="form-control" id="Rank" name="Rank">
-        <option>Hiệp Sĩ Trưởng Thành</option>
-        <option>Huynh Trưởng - Cấp 1</option>
-        <option>Huynh Trưởng - Cấp 2</option>
-        <option>Huynh Trưởng - Cấp 3</option>
-        <option>Huấn Luyện Viên - Trung Cấp</option>
-        <option>Huấn Luyện Viên - Sơ Cấp</option>
-        <option>Trợ Tá</option>
-        <option>Trợ Úy</option>
-        <option>Cha Tuyên Úy</option>
-            </select>
+            @{
+                foreach (string rank in listOfRanks)
+                {
+                    if (rank == ViewData["Xrank"].ToString())
+                    {
+                        <option selected="selected">@rank</option>
+                    }
+                    else
+                    {
+                        <option>@rank</option>
+                    }
+                }
+            }
+        </select>
         </pre>
     </div>
+
+    @{
+        List<String> listOfLeauges = new List<string>();
+        listOfLeauges.Add("John Paul II");
+        listOfLeauges.Add("Biển Đức");
+        listOfLeauges.Add("Holy Family");
+        listOfLeauges.Add("Ignatius Loyola");
+        listOfLeauges.Add("Joan of Arc");
+        listOfLeauges.Add("Nguồn Sống");
+        listOfLeauges.Add("Phaolô Hạnh");
+        listOfLeauges.Add("Ra Khơi");
+        listOfLeauges.Add("San Diego");
+        listOfLeauges.Add("Sinai");
+        listOfLeauges.Add("Đaminh Saviô");
+    }
 
     <div class="form-group form-inline">
         <pre>
         <label class="col-sm-3 col-form-label" for="Leauge" style="font-size:18px;">
         <b>Leauge:</b>
-            </label>
+        </label>
         <select class="form-control" id="Leauge" name="Leauge">
-        <option>John Paul II</option>
-        <option>Biển Đức</option>
-        <option>Holy Family</option>
-        <option>Ignatius Loyola</option>
-        <option>Joan of Arc</option>
-        <option>Nguồn Sống</option>
-        <option>Phaolô Hạnh</option>
-        <option>Ra Khơi</option>
-        <option>San Diego</option>
-        <option>Sinai</option>
-        <option>Đaminh Saviô</option>
+            @{
+                foreach (string leauge in listOfLeauges)
+                {
+                    if (leauge == ViewData["Xleauge"].ToString())
+                    {
+                        <option selected="selected">@leauge</option>
+                    }
+                    else
+                    {
+                        <option>@leauge</option>
+                    }
+                }
+            }
         </select>
         </pre>
     </div>
+
+    @{
+        List<String> listOfChapters = new List<string>();
+        listOfChapters.Add("Đồng Hành - (Franklin, WI)");
+        listOfChapters.Add("Nguồn Sống - (Glen Ellyn, IL)");
+        listOfChapters.Add("Sao Biển - (Chicago, IL)");
+    }
+
 
     <div class="form-group form-inline">
         <pre>
@@ -73,20 +115,19 @@
         <b>Chapter:</b>
             </label>
         <select class="form-control" id="Chapter" name="Chapter">
-            <option>Đồng Hành - (Franklin, WI)</option>
-            <option>Nguồn Sống - (Glen Ellyn, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
-            <option>Sao Biển - (Chicago, IL)</option>
+            @{
+                foreach (string chapter in listOfChapters)
+                {
+                    if (chapter == ViewData["Xchapter"].ToString())
+                    {
+                        <option selected="selected">@chapter</option>
+                    }
+                    else
+                    {
+                        <option>@chapter</option>
+                    }
+                }
+            }
         </select>
         </pre>
     </div>

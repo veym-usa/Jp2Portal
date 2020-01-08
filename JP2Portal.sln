@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jp2Portal", "Jp2Portal.csproj", "{8CC9A43F-734E-4DE9-8D40-864B2B3737AD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VEYMDataAccess", "..\VEYMDataAccess\VEYMDataAccess.csproj", "{1B647B7A-FF86-47AC-A9EC-9A81785960FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8CC9A43F-734E-4DE9-8D40-864B2B3737AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CC9A43F-734E-4DE9-8D40-864B2B3737AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CC9A43F-734E-4DE9-8D40-864B2B3737AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B647B7A-FF86-47AC-A9EC-9A81785960FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B647B7A-FF86-47AC-A9EC-9A81785960FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B647B7A-FF86-47AC-A9EC-9A81785960FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B647B7A-FF86-47AC-A9EC-9A81785960FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

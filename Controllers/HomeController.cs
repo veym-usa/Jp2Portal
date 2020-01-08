@@ -9,6 +9,10 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Linq;
 using Jp2Portal.Models;
+using Microsoft.SharePoint.Client;
+using System;
+using System.Text;
+using System.Net;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 {
@@ -57,8 +61,24 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult CampInfo()
+        public async Task<IActionResult> CampInfo()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Initialize the GraphServiceClient.
+                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+                // Grab Beta Data
+                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+                var identity = User.Identity as ClaimsIdentity;
+                string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+
+                string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
+                UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
+
+                // Pass the Goods to the View
+                ViewData["Xrank"] = currentUser.rank;
+            }
+
             return View();
         }
 
@@ -104,7 +124,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         }
 
         //Do Update here becasuse _graphSdkHelper already initalized
-        public async Task<IActionResult> ManageUpdate()
+        public IActionResult ManageUpdate()
         {
             VEYMUser veymUser = new VEYMUser();
             veymUser.FirstName = Request.Query["FirstName"];
@@ -113,28 +133,49 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             veymUser.Leauge = Request.Query["Leauge"];
             veymUser.Chapter = Request.Query["Chapter"];
 
-            if (User.Identity.IsAuthenticated)
+            string url = @"https://veym.sharepoint.com/:x:/s/ldtestdomain/camp-registration-DEV/ET0w0xzxGS1Fu2glgRhOul0BDq4hASmLE2tmB8_HQLekJw?e=GL7Zfc";
+
+            using (var context = new ClientContext(new Uri(url)))
             {
-                // Initialize the GraphServiceClient.
-                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
-                // Grab Beta Data
-                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
-
-                var user = new User
+                var web = context.Web;
+                context.Credentials = new NetworkCredential();
+                context.Load(web);
+                try
                 {
-
-                };
-
-                //Do the Update
-                //await graphClient.Me.Request().UpdateAsync(user);
-
+                    context.ExecuteQuery();
+                }
+                catch (Exception ex)
+                {
+                }
+                var file = web.GetFileByServerRelativeUrl(new Uri(url).AbsolutePath);
+                context.Load(file);
+                try
+                {
+                    context.ExecuteQuery();
+                    file.SaveBinary(new FileSaveBinaryInformation() { Content = Encoding.UTF8.GetBytes("Hi.xls") });
+                    try
+                    {
+                        context.ExecuteQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
-            return View("Update");
+
+            // Pass the Goods to the View
+            ViewData["XfirstName"] = veymUser.FirstName;
+            ViewData["XlastName"] = veymUser.LastName;
+            ViewData["Xemail"] = User.FindFirst("preferred_username").Value;
+
+            return View("ThankYou");
         }
 
-        //Do Update here becasuse _graphSdkHelper already initalized
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> Resources()
         {
             return View();
         }

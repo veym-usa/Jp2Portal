@@ -1,6 +1,49 @@
 ﻿<div class="text-center">
-    <h2>Certifed Training</h2>
-    <br>
-    <h2>Future Training Opportunities</h2>
+    <h2><b>Certifed Training</b></h2>
+    <hr />
+    @{
+        switch (ViewData["Xrank"].ToString())
+        {
+            case "Hiệp Sĩ Trưởng Thành":
+                <br>
+                <h2><b>Future Training Opportunities</b></h2>
+                <hr />
+                <img src="~/Badge-C1.jpg" height="300" width="300" />
+                <img src="~/Badge-C2.jpg" height="300" width="300" />
+                <img src="~/Badge-C3.PNG" height="300" width="300" />
+                <img src="~/Badge-HLV.png" height="300" width="300" />
+                break;
+            case "Huynh Trưởng - Cấp 1":
+                <img src="~/Badge-C1.jpg" height="300" width="300" />
+                <br>
+                <h2><b>Future Training Opportunities</b></h2>
+                <hr />
+                <img src="~/Badge-C2.jpg" height="300" width="300" />
+                <img src="~/Badge-C3.PNG" height="300" width="300" />
+                <img src="~/Badge-HLV.png" height="300" width="300" />
+                break;
+            case "Huynh Trưởng - Cấp 2":
+                <img src="~/Badge-C1.jpg" height="300" width="300" />
+                <img src="~/Badge-C2.jpg" height="300" width="300" />
+                <br>
+                <h2><b>Future Training Opportunities</b></h2>
+                <hr />
+                <img src="~/Badge-C3.PNG" height="300" width="300" />
+                <img src="~/Badge-HLV.png" height="300" width="300" />
+                break;
+            case "Huynh Trưởng - Cấp 3":
+                <img src="~/Badge-C1.jpg" height="300" width="300" />
+                <img src="~/Badge-C2.jpg" height="300" width="300" />
+                <img src="~/Badge-C3.PNG" height="300" width="300" />
+                <br>
+                <h2><b>Future Training Opportunities</b></h2>
+                <hr />
+                <img src="~/Badge-HLV.png" height="300" width="300" />
+                break;
+            default:
+                Console.WriteLine("Default case");
+                break;
+        }
+    }
     <br>
 </div>

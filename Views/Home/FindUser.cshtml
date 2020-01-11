@@ -1,33 +1,36 @@
-﻿@model Jp2Portal.Models.VEYMUser
-@{ 
+﻿@{
+    ViewData["Title"] = "FindUser";
     //Use these to get explicitly show spacing inside of pre
     string space = " ";
 }
 
 <div class="text-center">
     <h1 class="display-4">
-        <b>Update Your Info</b>
+        <b>Find Another User</b>
     </h1>
 </div>
 
 <div class="container">
 
     <div class="row">
-        <form class="container form-horizontal" action="ManageUpdate" meathod="post">
+        <form class="container form-horizontal" action="Find" meathod="post">
             <div class="form-group form-inline">
                 <pre>
-                    <label class="col-form-label" for="FirstName" style="font-size:18px;"><b>First Name:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="FirstName" name="FirstName" value=@ViewData["XfirstName"] />
+                <label class="col-form-label" for="FirstName" style="font-size:18px;"><b>First Name:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="FirstName" name="FirstName" value=? />
+
                 </pre>
             </div>
 
             <div class="form-group form-inline">
                 <pre>
-                    <label class="col-form-label" for="LastName" style="font-size:18px;"><b>Last Name:</b>@space@space@space@space@space@space</label><input type="text" class="form-control" id="LastName" name="LastName" value=@ViewData["XlastName"] />
+                <label class="col-form-label" for="LastName" style="font-size:18px;"><b>Last Name:</b>@space@space@space@space@space@space</label><input type="text" class="form-control" id="LastName" name="LastName" value=? />
+
                 </pre>
             </div>
 
             @{
                 List<String> listOfRanks = new List<string>();
+                listOfRanks.Add("?");
                 listOfRanks.Add("Hiệp Sĩ Trưởng Thành");
                 listOfRanks.Add("Huynh Trưởng - Cấp 1");
                 listOfRanks.Add("Huynh Trưởng - Cấp 2");
@@ -41,26 +44,20 @@
 
             <div class="form-group form-inline">
                 <pre>
-                    <label class="col-form-label" for="Rank" style="font-size:18px;" onchange="if(this.selectedIndex) doSomething();"><b>Rank:</b></label>@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space<select class="form-control" id="Rank" name="Rank">
-            @{
-                foreach (string rank in listOfRanks)
-                {
-                    if (rank == ViewData["Xrank"].ToString())
-                    {
-                <option selected="selected">@rank</option>
-                    }
-                    else
-                    {
-                <option>@rank</option>
-                    }
-                }
-            }
+                <label class="col-form-label" for="Rank" style="font-size:18px;" onchange="if(this.selectedIndex) doSomething();"><b>Rank:</b></label>@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space<select class="form-control" id="Rank" name="Rank">
+    @{
+        foreach (string ranks in listOfRanks)
+        {
+                <option>@ranks</option>
+        }
+    }
         </select>
         </pre>
             </div>
 
             @{
                 List<String> listOfLeauges = new List<string>();
+                listOfLeauges.Add("?");
                 listOfLeauges.Add("Biển Đức");
                 listOfLeauges.Add("Đaminh Saviô");
                 listOfLeauges.Add("Holy Family");
@@ -76,26 +73,20 @@
 
             <div class="form-group form-inline">
                 <pre>
-                    <label class="col-form-label" for="Leauge" style="font-size:18px;"><b>Leauge:</b>@space@space@space@space@space@space@space@space@space</label><select class="form-control" id="Leauge" name="Leauge">
-            @{
-                foreach (string leauge in listOfLeauges)
-                {
-                    if (leauge == ViewData["Xleauge"].ToString())
-                    {
-                <option selected="selected">@leauge</option>
-                    }
-                    else
-                    {
+                <label class="col-form-label" for="Leauge" style="font-size:18px;"><b>Leauge:</b>@space@space@space@space@space@space@space@space@space</label><select class="form-control" id="Leauge" name="Leauge">
+    @{
+        foreach (string leauge in listOfLeauges)
+        {
                 <option>@leauge</option>
-                    }
-                }
-            }
-        </select>
+        }
+    }
+</select>
         </pre>
             </div>
 
             @{
                 List<String> listOfChapters = new List<string>();
+                listOfChapters.Add("?");
                 listOfChapters.Add("Đồng Hành - (Franklin, WI)");
                 listOfChapters.Add("Nguồn Sống - (Glen Ellyn, IL)");
                 listOfChapters.Add("Sao Biển - (Chicago, IL)");
@@ -104,18 +95,11 @@
 
             <div class="form-group form-inline">
                 <pre>
-                    <label class="col-form-label" for="Chapter" style="font-size:18px;"><b>Chapter:</b>@space@space@space@space@space@space@space@space</label><select class="form-control" id="Chapter" name="Chapter">
+                <label class="col-form-label" for="Chapter" style="font-size:18px;"><b>Chapter:</b>@space@space@space@space@space@space@space@space</label><select class="form-control" id="Chapter" name="Chapter">
             @{
                 foreach (string chapter in listOfChapters)
                 {
-                    if (chapter == ViewData["Xchapter"].ToString())
-                    {
-                <option selected="selected">@chapter</option>
-                    }
-                    else
-                    {
                 <option>@chapter</option>
-                    }
                 }
             }
         </select>
@@ -124,7 +108,11 @@
 
             <br />
             <br />
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Update</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Search</button>
         </form>
+
+        <div style="height:120px;width:120px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+            JSON is displayed here
+        </div>
     </div>
 </div>

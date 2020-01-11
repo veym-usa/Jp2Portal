@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    //Use these to get explicitly show spacing inside of pre
+    string space = " ";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="shortcut icon" href="~/Resources/favicon.ico">
@@ -11,23 +16,21 @@
     <nav class="navbar navbar-expand-lg navbar-tntt">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">JP2 Portal</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="UpdateUserInfo">Update User Info</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="CampInfo">Past Sa Mạc Huấn Luyện</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="RegisterForEvent">Register for an Event</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <button class="dropbtn">Directory <i class="fa fa-caret-down"></i>@space@space@space@space</button>
+                    <div class="dropdown-content">
+                        <a asp-area="" asp-controller="Home" asp-action="UpdateUserInfo">Update User Info</a>
+                        <a asp-area="" asp-controller="Home" asp-action="FindUser">Find Another User</a>
+                    </div>
+                </li>
+                <li><a asp-area="" asp-controller="Home" asp-action="CampInfo">Sa Mạc Huấn Luyện</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="RegisterForEvent">Register for an Event</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
+            </ul>
+            <partial name="_LoginPartial" />
         </div>
     </nav>
 
@@ -38,18 +41,18 @@
         <hr />
         <footer>
             <div class="row">
-                <div class="pull-left">
+                <div class="col">
                     <b>&copy; 2019 - Liên Đoàn Gioan Phaolô II</b>
                     <br>
                     <i>"The future starts today, not tomorrow." - Pope John Paul II</i>
                 </div>
-                <div class="pull-right">
-                    <a class="fb-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.facebook.com/profile.php?id=100013798176848"><i class="fab fa-lg fa-facebook-f"></i></a>
-                    <a class="email-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="mailto: philips.nguyen@veym.net"><i class="far fa-lg fa-envelope"></i></a>
-                    <a class="yt-ic mr-3" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.youtube.com/watch?v=JCIIv8hsO3E&feature=youtu.be&fbclid=IwAR1l0vIjPaKg96EtX-maWa-a8PXYZDYwV48uzo3qis65Hr5XzxOxKGuh4tM"><i class="fab fa-lg fa-youtube"></i></a>
+                <div class="col text-lg-right">
+                    <a class="fb-ic" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.facebook.com/profile.php?id=100013798176848"><i class="fab fa-lg fa-facebook-f"></i></a>
+                    <a class="email-ic" role="button" style="padding-left: 2px; padding-right: 2px;" href="mailto: philips.nguyen@veym.net"><i class="far fa-lg fa-envelope"></i></a>
+                    <a class="yt-ic" role="button" style="padding-left: 2px; padding-right: 2px;" href="https://www.youtube.com/watch?v=JCIIv8hsO3E&feature=youtu.be&fbclid=IwAR1l0vIjPaKg96EtX-maWa-a8PXYZDYwV48uzo3qis65Hr5XzxOxKGuh4tM"><i class="fab fa-lg fa-youtube"></i></a>
                 </div>
             </div>
-         </footer>
+        </footer>
     </div>
     @RenderSection("Scripts", required: false)
 </body>

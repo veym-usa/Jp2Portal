@@ -14,7 +14,7 @@ using System;
 using System.Text;
 using System.Net;
 
-namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
+namespace JP2Portal.Controllers
 {
     public class HomeController : Controller
     {
@@ -123,6 +123,40 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> FindUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Initialize the GraphServiceClient.
+                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+                // Grab Beta Data
+                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+                var identity = User.Identity as ClaimsIdentity;
+                string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+
+                string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
+                UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
+                string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
+                theUser = new VEYMUser();
+
+                theUser.FirstName = currentUser.givenName;
+                theUser.LastName = currentUser.surname;
+                theUser.Rank = currentUser.rank;
+                theUser.Leauge = currentUser.league;
+                theUser.Chapter = currentUser.officeLocation;
+
+                // Pass the Goods to the View
+                ViewData["XfirstName"] = currentUser.givenName;
+                ViewData["XlastName"] = currentUser.surname;
+                ViewData["Xrank"] = currentUser.rank;
+                ViewData["Xleauge"] = currentUser.league;
+                ViewData["Xchapter"] = currentUser.officeLocation;
+            }
+
+            return View();
+        }
+
         //Do Update here becasuse _graphSdkHelper already initalized
         public IActionResult ManageUpdate()
         {
@@ -173,6 +207,43 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             ViewData["Xemail"] = User.FindFirst("preferred_username").Value;
 
             return View("ThankYou");
+        }
+
+        //Do a find
+        public async Task<IActionResult> Find()
+        {
+            VEYMUser veymUser = new VEYMUser();
+            veymUser.FirstName = Request.Query["FirstName"];
+            veymUser.LastName = Request.Query["LastName"];
+            veymUser.Rank = Request.Query["Rank"];
+            veymUser.Leauge = Request.Query["Leauge"];
+            veymUser.Chapter = Request.Query["Chapter"];
+
+            string request = "https://graph.microsoft.com/v1.0/users?$filter=";
+
+            if (!String.IsNullOrEmpty(veymUser.Rank))
+            {
+                request += "jobtitle eq " + veymUser.Rank;
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                // Initialize the GraphServiceClient.
+                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+                // Grab Beta Data
+                 graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+
+                string json = await GraphService.GetRequestJson(graphClient);
+                
+                UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
+                string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
+                theUser = new VEYMUser();
+            }
+
+
+
+
+            return View("FindUser");
         }
 
         public async Task<IActionResult> Resources()

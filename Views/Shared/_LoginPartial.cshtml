@@ -1,11 +1,12 @@
 ﻿@*Anchored Top Right. If logged in displys current logged in user. If not, shows Sign in*@
+
 @if (User.Identity.IsAuthenticated)
 {
     string email = User.FindFirst("preferred_username").Value;
 
     <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-text">You are signed in as: <b>@email</b></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a></li>
+        <li class="btn btn-dark disabled" style="padding-top: 10px">You are signed in as: <b>@email</b></li>
+        <li><a class="btn btn-danger" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a></li>
     </ul>
 }
 else

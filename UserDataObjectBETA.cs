@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
-namespace MicrosoftGraphAspNetCoreConnectSample
+namespace JP2Portal
 {
     public class UserDataObjectBETA
     {

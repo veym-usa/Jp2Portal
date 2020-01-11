@@ -50,6 +50,20 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Helpers
             }
         }
 
+        public static async Task<string> GetRequestJson(GraphServiceClient graphClient)
+        {
+            try
+            {
+                var user = await graphClient.Users.Request().GetAsync();
+                return JsonConvert.SerializeObject(user, Formatting.Indented);
+            }
+            catch (ServiceException e)
+            {
+            }
+
+            return null;
+        }
+
         // Load user's profile picture in base64 string.
         public static async Task<string> GetPictureBase64(GraphServiceClient graphClient, string email, HttpContext httpContext)
         {

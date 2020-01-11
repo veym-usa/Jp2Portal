@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
+namespace JP2Portal.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller

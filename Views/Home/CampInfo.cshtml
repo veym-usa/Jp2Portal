@@ -1,5 +1,7 @@
 ﻿<div class="text-center">
-    <h2><b>Certifed Training</b></h2>
+    <h1>
+        <b>Certifed Training</b>
+    </h1>
     <hr />
     @{
         switch (ViewData["Xrank"].ToString())
@@ -16,20 +18,48 @@
             case "Huynh Trưởng - Cấp 1":
                 <img src="~/Badge-C1.jpg" height="300" width="300" />
                 <br>
-                <h2><b>Future Training Opportunities</b></h2>
+                <h1><b>Future Training Opportunities</b></h1>
                 <hr />
                 <img src="~/Badge-C2.jpg" height="300" width="300" />
                 <img src="~/Badge-C3.PNG" height="300" width="300" />
                 <img src="~/Badge-HLV.png" height="300" width="300" />
                 break;
             case "Huynh Trưởng - Cấp 2":
-                <img src="~/Badge-C1.jpg" height="300" width="300" />
-                <img src="~/Badge-C2.jpg" height="300" width="300" />
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <img src="~/Badge-C1.jpg" class="image center-block" height="300" width="300" />
+                            <div class="hoverdisplay">
+                                <div class="text"><b>Sa Mạc HT Cấp 1:</b> [Camp Name] Recieved on [MM/YY]</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <img src="~/Badge-C2.jpg" class="image center-block" height="300" width="300" />
+                            <div class="hoverdisplay">
+                                <div class="text"><b>Sa Mạc HT Cấp 2:</b> [Camp Name] Recieved on [MM/YY]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <br>
                 <h2><b>Future Training Opportunities</b></h2>
                 <hr />
-                <img src="~/Badge-C3.PNG" height="300" width="300" />
-                <img src="~/Badge-HLV.png" height="300" width="300" />
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <img src="~/Badge-C3.PNG" class="image center-block" height="300" width="300" />
+                            <div class="hoverdisplay">
+                                <div class="text"><b>Sa Mạc HT Cấp 3:</b> Opportunity ???</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <img src="~/Badge-HLV.png" class="image center-block" height="300" width="300" />
+                            <div class="hoverdisplay">
+                                <div class="text"><b>Sa Mạc HLV:</b> Opportunity ???</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 break;
             case "Huynh Trưởng - Cấp 3":
                 <img src="~/Badge-C1.jpg" height="300" width="300" />

@@ -1,4 +1,4 @@
-﻿@if (!User.Identity.IsAuthenticated)
+﻿ @if (!User.Identity.IsAuthenticated)
 {
     <br />
     <p>Choose <b>Sign in</b> at the top of the page and sign in with VEYM account!</p>
@@ -12,12 +12,7 @@
          <hi class="display-4"> @name</hi>
         </h1>
     </div>
-
-    <div class="alert alert-info @(TempData["Message"] == null ? "hidden" : null)" role="alert">
-        @Html.Raw(TempData["Message"])
-    </div>
-    <br />
-    <br />
+    <hr />
     <br />
     <div class="row">
         <div class="col-md-3">

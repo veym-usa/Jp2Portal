@@ -172,7 +172,7 @@ namespace JP2Portal.Controllers
         }
 
         //Do Update here becasuse _graphSdkHelper already initalized
-        public IActionResult Confirm(string firstName, string lastName, string rank, string leauge, string chapter)
+        public async Task<IActionResult> Confirm(string firstName, string lastName, string rank, string leauge, string chapter)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -189,6 +189,44 @@ namespace JP2Portal.Controllers
 
                 //Add to the table!
                 var outputResult = graphClient.Sites["veym.sharepoint.com,a1ece445-fd00-4466-a396-fd37d484cd87,4b350ed2-ce08-4bfd-a1c7-f7e1f327d840"].Drive.Items["01RHRJOHR5GDJRZ4IZFVC3W2BFQEME5OS5"].Workbook.Worksheets["mainsheet"].Tables["Table1"].Rows.Request().AddAsync(newRow).Result;
+
+                //Send Email
+                var message = new Message
+                {
+                    Subject = "User Data Update Request!",
+                    Body = new ItemBody
+                    {
+                        ContentType = BodyType.Text,
+                        Content = "Please update my User Data with this body: \n\n" +
+                        "PATCH https://graph.microsoft.com/v1.0/users/{id} \nContent - type: application /\n\n json\n" +
+                        "{" +
+                        "\"extension_4d982a3099ee47359aed5ac368c6d277_Chapter\": \"" + chapter + "\"," +
+                        "\"extension_4d982a3099ee47359aed5ac368c6d277_League\": \"" + leauge + "\"," +
+                        "\"extension_4d982a3099ee47359aed5ac368c6d277_Rank\": \"" + rank + "\"," +
+                        "\"givenName\": \"" + firstName + "\"," +
+                        "\"surname\": \"" + lastName + "\"" +
+                        "}"
+                    },
+                    ToRecipients = new List<Recipient>()
+                    {
+                        new Recipient
+                        {
+                            EmailAddress = new EmailAddress
+                            {
+                                Address = "philips.nguyen@veym.net"
+                            }
+                        }
+                    },
+                    CcRecipients = new List<Recipient>()
+                    {
+
+                    }
+                };
+
+                await graphClient.Me
+                .SendMail(message, false)
+                .Request()
+                .PostAsync();
 
                 // Pass the Goods to the View
                 ViewData["XfirstName"] = firstName;

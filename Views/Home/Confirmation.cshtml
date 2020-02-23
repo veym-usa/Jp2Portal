@@ -15,7 +15,53 @@
                             <pre>@ViewData["oldFirstName"]<br>@ViewData["oldLastName"]<br>@ViewData["oldRank"]<br>@ViewData["oldLeauge"]<br>@ViewData["oldChapter"]</pre>
                         </div>
                         <div class="col">
-                            <pre><b>@ViewData["updatedFirstName"]<br>@ViewData["updatedLastName"]<br>@ViewData["updatedRank"]<br>@ViewData["updatedLeauge"]<br>@ViewData["updatedChapter"]</b></pre>
+                            <pre>
+                            @{
+                                if (ViewData["oldFirstName"].Equals(ViewData["updatedFirstName"]))
+                                {
+     <t>@ViewData["updatedFirstName"]</t>
+                                }
+                                else
+                                {
+     <b>@ViewData["updatedFirstName"]</b>
+                                }
+
+                                if (ViewData["oldLastName"].Equals(ViewData["updatedLastName"]))
+                                {
+     <t>@ViewData["updatedLastName"]</t>
+                                }
+                                else
+                                {
+     <b>@ViewData["updatedLastName"]</b>
+                                }
+
+                                if (ViewData["oldRank"].Equals(ViewData["updatedRank"]))
+                                {
+     <t>@ViewData["updatedRank"]</t>
+                                }
+                                else
+                                {
+     <b>@ViewData["updatedRank"]</b>
+                                }
+
+                                if (ViewData["oldLeauge"].Equals(ViewData["updatedLeauge"]))
+                                {
+     <t>@ViewData["updatedLeauge"]</t>
+                                }
+                                else
+                                {
+     <b>@ViewData["updatedLeauge"]</b>
+                                }
+
+                                if (ViewData["oldChapter"].Equals(ViewData["updatedChapter"]))
+                                {
+     <t>@ViewData["updatedChapter"]</t>
+                                }
+                                else
+                                {
+     <b>@ViewData["updatedChapter"]</b>
+                                }
+                            }</pre>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg btn-block bg-danger" id="Submit" name="Submit">Go Back</button>
                     </div>

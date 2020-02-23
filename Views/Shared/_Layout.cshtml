@@ -18,18 +18,21 @@
             <div class="navbar-header">
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">JP2 Portal</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <button class="dropbtn">Directory <i class="fa fa-caret-down"></i>@space@space@space@space</button>
-                    <div class="dropdown-content">
-                        <a asp-area="" asp-controller="Home" asp-action="UpdateUserInfo">Update User Info</a>
-                        <a asp-area="" asp-controller="Home" asp-action="FindUser">Find Another User</a>
-                    </div>
-                </li>
-                <li><a asp-area="" asp-controller="Home" asp-action="CampInfo">Sa Mạc Huấn Luyện</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="RegisterForEvent">Register for an Event</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
-            </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <button class="dropbtn">Directory <i class="fa fa-caret-down"></i>@space@space@space@space</button>
+                        <div class="dropdown-content">
+                            <a asp-area="" asp-controller="Home" asp-action="UpdateUserInfo">Update User Info</a>
+                            <a asp-area="" asp-controller="Home" asp-action="FindUser">Find Another User</a>
+                        </div>
+                    </li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="CampInfo">Sa Mạc Huấn Luyện</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="RegisterForEvent">Register for an Event</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Resources">Resources</a></li>
+                </ul>
+            }
             <partial name="_LoginPartial" />
         </div>
     </nav>

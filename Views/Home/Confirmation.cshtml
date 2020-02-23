@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<div class="container">
+
+    <div class="row">
+        <form class="container form-horizontal" action="Decline" meathod="post">
+            <div class="text-center">
+                <h2>Confirming Update Request:</h2>
+                <hr />
+                <p>You are requesting to update to the current user info<p>
+                    <div class="row">
+                        <div class="col">
+                            <pre>@ViewData["oldFirstName"]<br>@ViewData["oldLastName"]<br>@ViewData["oldRank"]<br>@ViewData["oldLeauge"]<br>@ViewData["oldChapter"]</pre>
+                        </div>
+                        <div class="col">
+                            <pre><b>@ViewData["updatedFirstName"]<br>@ViewData["updatedLastName"]<br>@ViewData["updatedRank"]<br>@ViewData["updatedLeauge"]<br>@ViewData["updatedChapter"]</b></pre>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block bg-danger" id="Submit" name="Submit">Go Back</button>
+                    </div>
+            </div>
+        </form>
+        <form class="container form-horizontal" action="Confirm" meathod="post">
+            <input type="hidden" name="firstName" value="@ViewData["updatedFirstName"]" />
+            <input type="hidden" name="lastName" value="@ViewData["updatedLastName"]" />
+            <input type="hidden" name="rank" value="@ViewData["updatedRank"]" />
+            <input type="hidden" name="leauge" value="@ViewData["updatedLeauge"]" />
+            <input type="hidden" name="chapter" value="@ViewData["updatedChapter"]" />
+            <button type="submit" class="btn btn-primary btn-lg btn-block bg-success" id="Submit" name="Submit">Accept</button>
+        </form>
+    </div>
+</div>

@@ -13,6 +13,10 @@ using Microsoft.SharePoint.Client;
 using System;
 using System.Text;
 using System.Net;
+using System.Collections.Generic;
+using System.Globalization;
+using Newtonsoft.Json.Linq;
+using System.Web.Helpers;
 
 namespace JP2Portal.Controllers
 {
@@ -21,7 +25,6 @@ namespace JP2Portal.Controllers
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
         private readonly IGraphSdkHelper _graphSdkHelper;
-        private VEYMUser theUser;
 
         public HomeController(IConfiguration configuration, IHostingEnvironment hostingEnvironment, IGraphSdkHelper graphSdkHelper)
         {
@@ -90,35 +93,17 @@ namespace JP2Portal.Controllers
 
 
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateUserInfo()
+        public IActionResult UpdateUserInfo()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Initialize the GraphServiceClient.
-                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
-                // Grab Beta Data
-                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
-                var identity = User.Identity as ClaimsIdentity;
-                string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
 
-                string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
-                UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
-                string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
-                theUser = new VEYMUser();
+            VEYMUser theUser = getVEYMUserGraphDataAsync().Result;
 
-                theUser.FirstName = currentUser.givenName;
-                theUser.LastName = currentUser.surname;
-                theUser.Rank = currentUser.rank;
-                theUser.Leauge = currentUser.league;
-                theUser.Chapter = currentUser.officeLocation;
-
-                // Pass the Goods to the View
-                ViewData["XfirstName"] = currentUser.givenName;
-                ViewData["XlastName"] = currentUser.surname;
-                ViewData["Xrank"] = currentUser.rank;
-                ViewData["Xleauge"] = currentUser.league;
-                ViewData["Xchapter"] = currentUser.officeLocation;
-            }
+            // Pass the Goods to the View
+            ViewData["XfirstName"] = theUser.FirstName;
+            ViewData["XlastName"] = theUser.LastName;
+            ViewData["Xrank"] = theUser.Rank;
+            ViewData["Xleauge"] = theUser.Leauge;
+            ViewData["Xchapter"] = theUser.Chapter;
 
             return View();
         }
@@ -138,7 +123,7 @@ namespace JP2Portal.Controllers
                 string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
                 UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
                 string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
-                theUser = new VEYMUser();
+                VEYMUser theUser = new VEYMUser();
 
                 theUser.FirstName = currentUser.givenName;
                 theUser.LastName = currentUser.surname;
@@ -160,53 +145,97 @@ namespace JP2Portal.Controllers
         //Do Update here becasuse _graphSdkHelper already initalized
         public IActionResult ManageUpdate()
         {
-            VEYMUser veymUser = new VEYMUser();
-            veymUser.FirstName = Request.Query["FirstName"];
-            veymUser.LastName = Request.Query["LastName"];
-            veymUser.Rank = Request.Query["Rank"];
-            veymUser.Leauge = Request.Query["Leauge"];
-            veymUser.Chapter = Request.Query["Chapter"];
 
-            string url = @"https://veym.sharepoint.com/:x:/s/ldtestdomain/camp-registration-DEV/ET0w0xzxGS1Fu2glgRhOul0BDq4hASmLE2tmB8_HQLekJw?e=GL7Zfc";
+            VEYMUser updatedVEYMUser = new VEYMUser();
+            updatedVEYMUser.FirstName = Request.Query["FirstName"];
+            updatedVEYMUser.LastName = Request.Query["LastName"];
+            updatedVEYMUser.Rank = Request.Query["Rank"];
+            updatedVEYMUser.Leauge = Request.Query["Leauge"];
+            updatedVEYMUser.Chapter = Request.Query["Chapter"];
 
-            using (var context = new ClientContext(new Uri(url)))
-            {
-                var web = context.Web;
-                context.Credentials = new NetworkCredential();
-                context.Load(web);
-                try
-                {
-                    context.ExecuteQuery();
-                }
-                catch (Exception ex)
-                {
-                }
-                var file = web.GetFileByServerRelativeUrl(new Uri(url).AbsolutePath);
-                context.Load(file);
-                try
-                {
-                    context.ExecuteQuery();
-                    file.SaveBinary(new FileSaveBinaryInformation() { Content = Encoding.UTF8.GetBytes("Hi.xls") });
-                    try
-                    {
-                        context.ExecuteQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-
+            VEYMUser oldVEYMUser = getVEYMUserGraphDataAsync().Result;
 
             // Pass the Goods to the View
-            ViewData["XfirstName"] = veymUser.FirstName;
-            ViewData["XlastName"] = veymUser.LastName;
-            ViewData["Xemail"] = User.FindFirst("preferred_username").Value;
+            ViewData["oldFirstName"] = oldVEYMUser.FirstName;
+            ViewData["oldLastName"] = oldVEYMUser.LastName;
+            ViewData["oldRank"] = oldVEYMUser.Rank;
+            ViewData["oldLeauge"] = oldVEYMUser.Leauge;
+            ViewData["oldChapter"] = oldVEYMUser.Chapter;
+
+            ViewData["updatedFirstName"] = updatedVEYMUser.FirstName;
+            ViewData["updatedLastName"] = updatedVEYMUser.LastName;
+            ViewData["updatedRank"] = updatedVEYMUser.Rank;
+            ViewData["updatedLeauge"] = updatedVEYMUser.Leauge;
+            ViewData["updatedChapter"] = updatedVEYMUser.Chapter;
+
+            return View("Confirmation");
+        }
+
+        //Do Update here becasuse _graphSdkHelper already initalized
+        public IActionResult Confirm(string firstName, string lastName, string rank, string leauge, string chapter)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Initialize the GraphServiceClient.
+                GraphServiceClient graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+                var identity = User.Identity as ClaimsIdentity;
+                string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+
+                //Adding the next request is currentNumberOfRequests + 1
+                WorkbookTableRow newRow = new WorkbookTableRow
+                {
+                    Values = JArray.Parse("[[\"" + email + "\",\"" + DateTime.Now + "\",\"" + firstName + "\",\"" + lastName +"\",\"" + rank + "\",\"" + leauge + "\",\"" + chapter + "\"]]")
+                };
+
+                //Add to the table!
+                var outputResult = graphClient.Sites["veym.sharepoint.com,a1ece445-fd00-4466-a396-fd37d484cd87,4b350ed2-ce08-4bfd-a1c7-f7e1f327d840"].Drive.Items["01RHRJOHR5GDJRZ4IZFVC3W2BFQEME5OS5"].Workbook.Worksheets["mainsheet"].Tables["Table1"].Rows.Request().AddAsync(newRow).Result;
+
+                // Pass the Goods to the View
+                ViewData["XfirstName"] = firstName;
+                ViewData["XlastName"] = lastName;
+                ViewData["Xemail"] = email;
+            }
 
             return View("ThankYou");
+        }
+
+        //Do Update here becasuse _graphSdkHelper already initalized
+        public IActionResult Decline()
+        {
+            VEYMUser theUser = getVEYMUserGraphDataAsync().Result;
+
+            // Pass the Goods to the View
+            ViewData["XfirstName"] = theUser.FirstName;
+            ViewData["XlastName"] = theUser.LastName;
+            ViewData["Xrank"] = theUser.Rank;
+            ViewData["Xleauge"] = theUser.Leauge;
+            ViewData["Xchapter"] = theUser.Chapter;
+
+            return View("UpdateUserInfo");
+        }
+
+        private async Task<VEYMUser> getVEYMUserGraphDataAsync()
+        {
+
+            // Initialize the GraphServiceClient.
+            var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+            // Grab Beta Data
+            graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+            var identity = User.Identity as ClaimsIdentity;
+            string email = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+
+            string json = await GraphService.GetUserJson(graphClient, email, HttpContext);
+            UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
+            string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
+            VEYMUser theUser = new VEYMUser();
+
+            theUser.FirstName = currentUser.givenName;
+            theUser.LastName = currentUser.surname;
+            theUser.Rank = currentUser.rank;
+            theUser.Leauge = currentUser.league;
+            theUser.Chapter = currentUser.officeLocation;
+
+            return theUser;
         }
 
         //Do a find
@@ -231,17 +260,14 @@ namespace JP2Portal.Controllers
                 // Initialize the GraphServiceClient.
                 var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
                 // Grab Beta Data
-                 graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
+                graphClient.BaseUrl = "https://graph.microsoft.com/beta/";
 
                 string json = await GraphService.GetRequestJson(graphClient);
-                
+
                 UserDataObjectBETA.RootObject currentUser = JsonConvert.DeserializeObject<UserDataObjectBETA.RootObject>(json);
                 string leaugeChapterID = currentUser?.chapter?.Substring(currentUser.chapter.IndexOf(';') + 1);
-                theUser = new VEYMUser();
+                VEYMUser theUser = new VEYMUser();
             }
-
-
-
 
             return View("FindUser");
         }

@@ -1,0 +1,115 @@
+﻿@{
+    ViewData["Title"] = "FindUser";
+    //Use these to get explicitly show spacing inside of pre
+    string space = " ";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">
+            <b>Welcome Administrator</b>
+        </h1>
+        Output Console:
+        <pre>
+    @ViewData["OutputTextPrompt"]<b>@ViewData["OutputTextResult"]</b>
+            </pre>
+    </div>
+<hr />
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Membership ID Finder</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="FindMembershipID" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                <label class="col-form-label" for="FirstName" style="font-size:18px;"><b>Email:</b>@space@space@space@space@space@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="Email" name="Email" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Find</button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Register A User to a Training</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="SignUpUserToTraining" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                <label class="col-form-label" for="MembershipIDR" style="font-size:18px;"><b>MembershipID:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="MembershipIDR" name="MembershipIDR" /></pre>
+                <pre>
+                <label class="col-form-label" for="TrainingIDR" style="font-size:18px;"><b>TrainingID:</b>@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="TrainingIDR" name="TrainingIDR" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Sign Up</button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Unprioritize a User In a Training</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="UnprioritizeUserInTraining" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                <label class="col-form-label" for="MembershipIDU" style="font-size:18px;"><b>MembershipID:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="MembershipIDU" name="MembershipIDU" /></pre>
+                <pre>
+                <label class="col-form-label" for="TrainingIDU" style="font-size:18px;"><b>TrainingID:</b>@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="TrainingIDU" name="TrainingIDU" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Unprioritize</button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Drop a User In a Training</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="DropUserInTraining" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                <label class="col-form-label" for="MembershipIDD" style="font-size:18px;"><b>MembershipID:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="MembershipIDU" name="MembershipIDD" /></pre>
+                <pre>
+                <label class="col-form-label" for="TrainingIDD" style="font-size:18px;"><b>TrainingID:</b>@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="TrainingIDU" name="TrainingIDD" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Drop</button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Create a Training</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="CreateTraining" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                    <label class="col-form-label" for="TrainingName" style="font-size:18px;"><b>Training Name:</b>@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="TrainingName" name="TrainingName" /></pre>
+                <pre>
+                <label class="col-form-label" for="TrainingUserCapacity" style="font-size:18px;"><b>Training User Capacity:</b>@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="TrainingUserCapacity" name="TrainingUserCapacity" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Create</button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-6">
+            <b>Register A User to the System</b>
+        </h1>
+    </div>
+    <div class="row">
+        <form class="container form-horizontal" action="RegisterUserToSystem" meathod="post">
+            <div class="form-group form-inline">
+                <pre>
+                <label class="col-form-label" for="EmailR" style="font-size:18px;"><b>Email:</b>@space@space@space@space@space@space@space@space@space@space@space@space</label><input type="text" class="form-control" id="EmailR" name="EmailR" /></pre>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Register</button>
+        </form>
+    </div>
+</div>

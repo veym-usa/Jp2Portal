@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "AdministrateUsers";
+    string space = " ";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">
+        Administrate Users
+    </h1>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Membership ID</th>
+                <th scope="col">VEYM Email Address</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                if (ViewData["numberOfUsers"] != null)
+                {
+                    for (int i = 0; i < int.Parse(ViewData["numberOfUsers"].ToString()); i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@ViewData["membershipID" + i]</td>
+                            <td>@ViewData["emailAddress" + i]</td>
+                            <td>@ViewData["name" + i]</td>
+                            <td>
+                                <div class="row">
+                                    <form class="container form-horizontal col" action="UserTrainings/@ViewData["membershipID" + i]" meathod="post">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">View Trainings</button>
+                                    </form>
+                                    <form class="container form-horizontal col" action="deleteUser/@ViewData["membershipID" + i]" meathod="post">
+                                        <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+

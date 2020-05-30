@@ -1,4 +1,28 @@
 ﻿<div class="text-center">
+    <br>
+    <form class="container form-horizontal" action="PreviousTrainings/@ViewData["MembershipID"]" meathod="post">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">View Previous Trainings</button>
+    </form>
+    <br>
+    <form class="container form-horizontal" action="TrainingsOffered/@ViewData["MembershipID"]" meathod="post">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">View Trainings Offered</button>
+    </form>
+    <br>
+    <form class="container form-horizontal" action="CurrentRegistrations/@ViewData["MembershipID"]" meathod="post">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Current Registrations</button>
+    </form>
+    <br>
+    @{
+        if ((bool)ViewData["Admin"])
+        {
+            <form class="container form-horizontal" action="AdminMode" meathod="post">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Admin Mode</button>
+            </form>
+            <br>
+        }
+
+    }
+
     <h1>
         <b>Certifed Training</b>
     </h1>

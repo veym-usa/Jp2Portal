@@ -1,0 +1,64 @@
+﻿<div class="text-center">
+    <h1 class="display-4">
+        Trainings for @ViewData["Name"]
+    </h1>
+    <b>@ViewData["DisplayMessage"]</b>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Training ID</th>
+                <th scope="col">Training Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Time Signed Up</th>
+                <th scope="col">Paid</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                if (ViewData["numberOfTrainings"] != null)
+                {
+                    for (int i = 0; i < int.Parse(ViewData["numberOfTrainings"].ToString()); i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@ViewData["trainingID" + i]</td>
+                            <td>@ViewData["trainingName" + i]</td>
+                            <td>@ViewData["status" + i]</td>
+                            <td>@ViewData["placeInQueue" + i]</td>
+                            <td>@ViewData["timeSignedUp" + i]</td>
+                            <td>@ViewData["Paid" + i]</td>
+                            @{
+                                string unprioritizeString = "U" + @ViewData["membershipID" + i] + "X" + @ViewData["trainingID" + i];
+                                string deleteString = "D" + @ViewData["membershipID" + i] + "X" + @ViewData["trainingID" + i];
+                            }
+
+                            <td>
+                                <div class="row">
+                                    <form class="container form-horizontal col" action="@deleteString" meathod="post">
+                                        <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">Drop</button>
+                                    </form>
+                                    <form class="container form-horizontal col" action="@unprioritizeString" meathod="post">
+                                        <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">Unprioritize</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            }
+        </tbody>
+    </table>
+    <form class="container form-horizontal col" action="ReturnToAdministrateUsers" meathod="post">
+        <button type="submit" class="btn btn-success btn-lg btn-block" id="Submit" name="Submit">Return to Administrate Users</button>
+    </form>
+</div>
+
+
+
+

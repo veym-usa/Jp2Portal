@@ -10,63 +10,65 @@
                 <h2>Confirming Update Request:</h2>
                 <hr />
                 <p>You are requesting to update to the current user info<p>
-                    <div class="row">
-                        <div class="col">
-                            <pre>@ViewData["oldFirstName"]<br>@ViewData["oldLastName"]<br>@ViewData["oldRank"]<br>@ViewData["oldLeauge"]<br>@ViewData["oldChapter"]</pre>
-                        </div>
-                        <div class="col">
-                            <pre>
+    <div class="row">
+        <div class="col">
+            <pre>@ViewData["oldFirstName"]<br>@ViewData["oldLastName"]<br>@ViewData["oldRank"]<br>@ViewData["oldLeauge"]<br>@ViewData["oldChapter"]</pre>
+        </div>
+        <div class="col">
+            <pre>
                             @{
                                 if (ViewData["oldFirstName"].Equals(ViewData["updatedFirstName"]))
                                 {
-     <t>@ViewData["updatedFirstName"]</t>
+<t>@ViewData["updatedFirstName"]</t>
                                 }
                                 else
                                 {
-     <b>@ViewData["updatedFirstName"]</b>
+<b>@ViewData["updatedFirstName"]</b>
                                 }
 
                                 if (ViewData["oldLastName"].Equals(ViewData["updatedLastName"]))
                                 {
-     <t>@ViewData["updatedLastName"]</t>
+<t>@ViewData["updatedLastName"]</t>
                                 }
                                 else
                                 {
-     <b>@ViewData["updatedLastName"]</b>
+<b>@ViewData["updatedLastName"]</b>
                                 }
 
                                 if (ViewData["oldRank"].Equals(ViewData["updatedRank"]))
                                 {
-     <t>@ViewData["updatedRank"]</t>
+<t>@ViewData["updatedRank"]</t>
                                 }
                                 else
                                 {
-     <b>@ViewData["updatedRank"]</b>
+<b>@ViewData["updatedRank"]</b>
                                 }
 
                                 if (ViewData["oldLeauge"].Equals(ViewData["updatedLeauge"]))
                                 {
-     <t>@ViewData["updatedLeauge"]</t>
+<t>@ViewData["updatedLeauge"]</t>
                                 }
                                 else
                                 {
-     <b>@ViewData["updatedLeauge"]</b>
+<b>@ViewData["updatedLeauge"]</b>
                                 }
 
                                 if (ViewData["oldChapter"].Equals(ViewData["updatedChapter"]))
                                 {
-     <t>@ViewData["updatedChapter"]</t>
+<t>@ViewData["updatedChapter"]</t>
                                 }
                                 else
                                 {
-     <b>@ViewData["updatedChapter"]</b>
+<b>@ViewData["updatedChapter"]</b>
                                 }
                             }</pre>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block bg-danger" id="Submit" name="Submit">Go Back</button>
-                    </div>
-            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block bg-danger" id="Submit" name="Submit">Go Back</button>
+</div>
         </form>
+    </div>
+    <div class="row">
         <form class="container form-horizontal" action="Confirm" meathod="post">
             <input type="hidden" name="firstName" value="@ViewData["updatedFirstName"]" />
             <input type="hidden" name="lastName" value="@ViewData["updatedLastName"]" />

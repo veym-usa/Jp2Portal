@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "PreviousTrainings";
+}
+
+<div class="text-center">
+    <h2>Your Previous Trainings:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Training ID</th>
+                <th scope="col">Training Name</th>
+                <th scope="col">Completed?</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewData["numberOfTrainings"] != null)
+                {
+                    for (int i = 0; i < int.Parse(ViewData["numberOfTrainings"].ToString()); i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@ViewData["trainingID" + i]</td>
+                            <td>@ViewData["trainingName" + i]</td>
+                            <td>@ViewData["trainingUserStatus" + i]</td>
+                            <td>
+                                @{ string route = "T" + ViewData["trainingID" + i];}
+                                <div class="row">
+                                    <form class="container form-horizontal col" action="@route" meathod="post">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">View Training</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>

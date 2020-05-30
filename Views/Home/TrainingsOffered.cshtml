@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "TrainingsOffered";
+}
+
+<div class="text-center">
+    <h2>Current Trainings Offered:</h2>
+    @ViewData["Message"]
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Training ID</th>
+                <th scope="col">Training Name</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Current Number Of Signed Up Users</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewData["NumberOfTrainings"] != null)
+                {
+                    for (int i = 0; i < int.Parse(ViewData["NumberOfTrainings"].ToString()); i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@ViewData["TrainingID" + i]</td>
+                            <td>@ViewData["TrainingName" + i]</td>
+                            <td>@ViewData["TrainingCapacity" + i]</td>
+                            <td>@ViewData["TrainingCurrentNumberOfUsers" + i]</td>
+                            <td>
+                                @{ string route = "S" + ViewData["trainingID" + i].ToString() + "X" + @ViewData["MembershipID"];}
+                                <div class="row">
+                                    <form class="container form-horizontal col" action="@route" meathod="post">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Sign Up</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>

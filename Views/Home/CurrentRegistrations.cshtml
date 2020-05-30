@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "CurrentRegistraions";
+}
+
+    <div class="text-center">
+        <h2>Your Current Registrations:</h2>
+        @ViewData["Message"]
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Training ID</th>
+                    <th scope="col">Training Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Time Signed Up</th>
+                    <th scope="col">Paid</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (ViewData["NumberOfTrainings"] != null)
+                    {
+                        for (int i = 0; i <= int.Parse(ViewData["NumberOfTrainings"].ToString()); i++)
+                        {
+                            <tr>
+                                <th scope="row">@(i + 1)</th>
+                                <td>@ViewData["TrainingID" + i]</td>
+                                <td>@ViewData["TrainingName" + i]</td>
+                                <td>@ViewData["Status" + i]</td>
+                                <td>@ViewData["Priority" + i]</td>
+                                <td>@ViewData["TimeSignedUp" + i]</td>
+                                <td>@ViewData["Paid" + i]</td>
+                                <td>
+                                    @{ string route = "D" + ViewData["trainingID" + i].ToString() + "X" + @ViewData["MembershipID"];}
+                                    <div class="row">
+                                        <form class="container form-horizontal col" action="@route" meathod="post">
+                                            <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">Drop</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>

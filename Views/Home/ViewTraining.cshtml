@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "ViewTraining";
+}
+
+<div class="text-center">
+    <h2>Showing all users from @ViewData["TrainingName"]:</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Chapter</th>
+                <th scope="col">Leauge Of Chapter</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewData["NumberOfUsers"] != null)
+                {
+                    for (int i = 0; i < int.Parse(ViewData["NumberOfUsers"].ToString()); i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@ViewData["UserName" + i]</td>
+                            <td>@ViewData["UserEmail" + i]</td>
+                            <td>@ViewData["UserChapter" + i]</td>
+                            <td>@ViewData["UserLeaugeOfChapter" + i]</td>
+                        </tr>
+
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

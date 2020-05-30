@@ -1,0 +1,56 @@
+﻿
+    <div class="text-center">
+        <h2>Displaying Training @ViewData["trainingID"] : @ViewData["trainingName"]</h2>
+        <form class="container form-horizontal col" action="DeleteTraining" meathod="post">
+            <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">Delete Training</button>
+        </form>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">MembershipID</th>
+                    <th scope="col">name</th>
+                    <th scope="col">emailAddress</th>
+                    <th scope="col">timeSignedUp</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    if (ViewData["numberOfUsers"] != null)
+                    {
+                        for (int i = 0; i < int.Parse(ViewData["numberOfUsers"].ToString()); i++)
+                        {
+                            <tr>
+                                <th scope="row">@(i + 1)</th>
+                                <td>@ViewData["placeInQueue" + i]</td>
+                                <td>@ViewData["membershipID" + i]</td>
+                                <td>@ViewData["name" + i]</td>
+                                <td>@ViewData["emailAddress" + i]</td>
+                                <td>@ViewData["timeSignedUp" + i]</td>
+                                <td>
+                                    <div class="row">
+                                        @{
+                                            String passToController = ViewData["membershipID" + i] + "X" + @ViewData["trainingID"];
+                                        }
+                                        <form class="container form-horizontal col" action="TrainingDropUserFromTraining/@passToController" meathod="post">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Drop User</button>
+                                        </form>
+                                        <form class="container form-horizontal col" action="TrainingUnprioritizeUserFromTraining/DisplayTraining/Training/@ViewData["membershipID" + i]" meathod="post">
+                                            <button type="submit" class="btn btn-danger btn-lg btn-block" id="Submit" name="Submit">UnPrioritize</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+

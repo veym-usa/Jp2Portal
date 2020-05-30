@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "AdministrateTrainings";
+    string space = " ";
+}
+
+<div class="text-center">
+    <h1 class="display-4">
+        Administrate Trainings
+    </h1>
+
+    <form class="container form-horizontal" action="DisplayTraining" meathod="post">
+        <div class="form-group form-inline">
+            <pre>
+            <label class="col-form-label" for="Trainings" style="font-size:18px;" onchange="if(this.selectedIndex) doSomething();"><b>Trainings:</b></label>@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space@space<select class="form-control" id="training" name="training">
+    @{
+
+            if (ViewData["numberOfTrainings"] != null)
+            {
+                for (int i = 0; i < int.Parse(ViewData["numberOfTrainings"].ToString()); i++)
+                {
+
+                    <option>@ViewData["trainingName" + i]</option>
+                }
+            }
+
+    }
+</select></pre>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Display</button>
+    </form>
+
+</div>

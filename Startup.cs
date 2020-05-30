@@ -17,8 +17,6 @@ using Microsoft.Extensions.Logging;
 using MicrosoftGraphAspNetCoreConnectSample.Extensions;
 using MicrosoftGraphAspNetCoreConnectSample.Helpers;
 
-
-
 namespace MicrosoftGraphAspNetCoreConnectSample
 {
     public class Startup

@@ -16,16 +16,12 @@
         <form class="container form-horizontal" action="Find" meathod="post">
             <div class="form-group form-inline">
                 <pre>
-                <label class="col-form-label" for="FirstName" style="font-size:18px;"><b>First Name:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="FirstName" name="FirstName" value=? />
-
-                </pre>
+                <label class="col-form-label" for="FirstName" style="font-size:18px;"><b>First Name:</b>@space@space@space@space@space</label><input type="text" class="form-control" id="FirstName" name="FirstName" value=? /></pre>
             </div>
 
             <div class="form-group form-inline">
                 <pre>
-                <label class="col-form-label" for="LastName" style="font-size:18px;"><b>Last Name:</b>@space@space@space@space@space@space</label><input type="text" class="form-control" id="LastName" name="LastName" value=? />
-
-                </pre>
+                <label class="col-form-label" for="LastName" style="font-size:18px;"><b>Last Name:</b>@space@space@space@space@space@space</label><input type="text" class="form-control" id="LastName" name="LastName" value=? /></pre>
             </div>
 
             @{
@@ -51,8 +47,7 @@
                 <option>@ranks</option>
         }
     }
-        </select>
-        </pre>
+        </select></pre>
             </div>
 
             @{
@@ -80,8 +75,7 @@
                 <option>@leauge</option>
         }
     }
-</select>
-        </pre>
+</select></pre>
             </div>
 
             @{
@@ -102,17 +96,48 @@
                 <option>@chapter</option>
                 }
             }
-        </select>
-        </pre>
+        </select></pre>
             </div>
-
-            <br />
             <br />
             <button type="submit" class="btn btn-primary btn-lg btn-block" id="Submit" name="Submit">Search</button>
         </form>
-
-        <div style="height:120px;width:120px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-            JSON is displayed here
-        </div>
     </div>
 </div>
+
+@{
+    if (ViewData["maxUsersToDisplay"] != null)
+    {
+    <div class="text-center">
+        <h1 class="display-4">
+            <b>Search Results:</b>
+            @ViewData["searchInformationalText"]
+        </h1>
+        <hr />
+    </div>
+
+
+
+
+        for (int i = 0; i < int.Parse(ViewData["maxUsersToDisplay"].ToString()); i++)
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="@ViewData["userPicture" + i]" style="border-radius: 50%; height: 200px; width: 200px; margin: 20px;" />
+                </div>
+                <div class="col-md-9">
+
+                    <pre><b>Name:              </b> @ViewData["userName" + i]</pre>
+                    <pre><b>Email:             </b> @ViewData["userEmail" + i]</pre>
+                    <pre><b>Rank:              </b> @ViewData["userRank" + i]</pre>
+                    <pre><b>Liên Đoàn:         </b> @ViewData["userLeauge" + i]</pre>
+                    <pre><b>Đoàn:              </b> @ViewData["userChapter" + i]</pre>
+                </div>
+            </div>
+            <hr />
+        }
+
+        <div class="text-center">
+                <b>@ViewData["maxUsersToDisplay"]</b> number of users returned.
+        </div>
+    }
+}

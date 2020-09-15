@@ -32,7 +32,7 @@ Register for Training Camps:
  
 Admin Mode: (Create Training Camps, Drop SMS, Change Queue Priority of SMS)  
 
-Screenshots of the POC are found here: 
+*Screenshots of the POC are found here:*
 
 https://veym-my.sharepoint.com/:w:/g/personal/philips_nguyen_veym_net/EQJ31oeyLI1LktOpms_k6YIBLmSDgVWtUyM5Q_tZQaWpvA?e=vu7HpM
 
